@@ -1,0 +1,30 @@
+version: '3'
+
+volumes:
+  db-data:
+
+services:
+  db:
+    image: postgres:12
+    platform: linux/amd64
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - db-data:/var/lib/postgres/data
+
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    platform: linux/amd64
+    environment:
+      - DATABASE_PASSWORD=postgres
+    volumes:
+      - .:/rails_docker
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    links:
+      - db
+    tty: true
+    stdin_open: true
