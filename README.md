@@ -31,27 +31,20 @@ Docker イメージをビルドします。
 docker-compose build
 ```
 
-### 5. データベースの作成
-次に、コンテナを起動し、データベースを作成します。
+### 5. コンテナの起動
+コンテナを起動します。
 ```bash
 docker-compose up -d
-docker-compose exec web rails db:create
 ```
 
-### 6. マイグレーションの実行
-データベースのマイグレーションを実行して、必要なテーブルを作成します。
+### 6. コンテナ内に入り、データベースの作成とマイグレーションを実行
+初回起動時は、コンテナ内に入り、データベースの作成とマイグレーションを行います。
 ```bash
-docker-compose exec web rails db:migrate
+docker-compose exec web bash
+rails db:create
+rails db:migrate
 ```
-
-### 7. アプリケーションの起動
-すべてのセットアップが完了したら、以下のコマンドでアプリケーションを起動します。
-
-```bash
-docker-compose up
-```
-
-### 8. ブラウザで確認
+### 7. ブラウザで確認
 ブラウザで http://localhost:3000 にアクセスして、アプリケーションが正常に起動していることを確認します。
 
 
